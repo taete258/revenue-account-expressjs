@@ -1,26 +1,22 @@
 import express, { Express, Request, Response } from "express";
-import dotenv from "dotenv";
+const errorHandler = require('strong-error-handler');
+const index = require ("../routes/index");
+const users = require('../routes/users');
 
-dotenv.config();
+// plugin
+const bodyParser = require('body-parser')
 
+// initialize the app with express
 const app: Express = express();
 const port = process.env.PORT || 3000;
-
-app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server + test11");
-});
-
-app.get("/data", (req: Request, res: Response) => {
-    console.log(req.query)
-    res.send(req.query);
-  });
-
-  app.get("/params/:id", (req: Request, res: Response) => {
-    console.log(req.params)
-    res.send(req.params);
-  });
-
-
-app.listen(port, () => {
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(errorHandler());
+app.listen(port, async() => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
+
+// routers
+app.use('/', index);
+app.use("/users",users)
+

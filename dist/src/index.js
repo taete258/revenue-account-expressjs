@@ -13,14 +13,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const dotenv_1 = __importDefault(require("dotenv"));
-const postgres_1 = require("@vercel/postgres");
+// import routers
+const errorHandler = require('./errorMiddleware');
+const index = require("../routes/index");
+const users = require('../routes/users');
+// plugin
 const bodyParser = require('body-parser');
-dotenv_1.default.config();
+// initialize the app with express
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.listen(port, () => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(`[server]: Server is running at http://localhost:${port}`);
+}));
+// error handler
+// app.use(errorHandler)
+// routers
+app.use('/', index);
+app.use("/users", users);
 // app.get("/", (req: Request, res: Response) => {
 //   res.send("Express + TypeScript Server + test11");
 // });
@@ -32,19 +43,4 @@ app.use(bodyParser.json());
 //     console.log(req.params)
 //     res.send(req.params);
 //   });
-// catch 404 and forward to error handler
-app.use(function (res) {
-    res.status(404).json({
-        message: "No such route exists"
-    });
-});
-// error handler
-app.use((err, req, res) => {
-    err.name === 'Error' && res.status(500).json({
-        err
-    });
-});
-app.listen(port, () => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(`[server]: Server is running at http://localhost:${port}`);
-    console.log(yield postgres_1.sql.connect());
-}));
+// app.route
