@@ -13,4 +13,13 @@ router.get('/getAllUser', async (req: Request, res: Response, next: NextFunction
   }
 });
 
+router.get('/getUserById/:id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { rows } = await query('SELECT * FROM users WHERE user_id = $1', [req.params.id]);
+    res.status(200).json(rows);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

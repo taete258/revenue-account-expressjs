@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/index.js",
-    "dev": "nodemon src/index.ts"
+    "start:prod": "node dist/index.js",
+    "start:dev": "nodemon api/index.ts"
   },
   "dependencies": {
     "@types/express": "~4.17.21",

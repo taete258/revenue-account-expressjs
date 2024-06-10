@@ -1,4 +1,6 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express } from "express";
+import dotenv from "dotenv";
+dotenv.config();
 const errorHandler = require('strong-error-handler');
 const index = require ("../routes/index");
 const users = require('../routes/users');
@@ -8,7 +10,7 @@ const bodyParser = require('body-parser')
 
 // initialize the app with express
 const app: Express = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(errorHandler());
